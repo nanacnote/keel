@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "keel"
+dynamic = ["version"]
+description = "Production-grade LLM tool-calling framework with Pydantic-driven tool registry and self-correcting retry loop"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Owusu K", email = "owusu@bohyen.space" }]
+requires-python = ">=3.11"
+keywords = ["llm", "tool-calling", "pydantic", "agent", "framework"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+adapters = [
+    "onnx-inference @ git+https://github.com/nanacnote/onnx-inference.git@main#subdirectory=sdk",
+]
+dev = [
+    "pytest>=8.0",
+    "pytest-mock>=3.12",
+]
+
+[project.urls]
+Homepage = "https://github.com/nanacnote/keel"
+Repository = "https://github.com/nanacnote/keel"
+"Bug Tracker" = "https://github.com/nanacnote/keel/issues"
+
+
+[tool.hatch.version]
+source = "vcs"
+tag-pattern = "v(?P<version>.+)"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "keel/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["keel"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.envs.default]
+path = ".venv"
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
